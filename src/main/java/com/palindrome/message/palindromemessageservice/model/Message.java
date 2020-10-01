@@ -1,17 +1,26 @@
 package com.palindrome.message.palindromemessageservice.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Objects;
 
+@Entity
 public class Message {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private String id;
     private String text;
-    private SecureRandom random = new SecureRandom();
+
+    public Message() {
+    }
 
     public Message(String text) {
         super();
+        SecureRandom random = new SecureRandom();
         String generatedId = new BigInteger(130, random).toString(32);
         this.id = generatedId;
         this.text = text;

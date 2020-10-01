@@ -22,11 +22,13 @@ public class MessageService implements IMessageService {
     public void createMessage(String text) {
         String generatedMessageId = new BigInteger(130, random).toString(32);
         Message message = new Message(generatedMessageId, text);
+        messages.add(message);
     }
 
     @Override
     public void createMessage(String messageId, String text) {
         Message message = new Message(messageId, text);
+        messages.add(message);
     }
 
     @Override
@@ -58,39 +60,20 @@ public class MessageService implements IMessageService {
         return messages.stream().sorted(Comparator.comparing(Message::getId)).collect(Collectors.toList());
     }
 
-//    public boolean isPalindrome(String messageId) {
-//        boolean isPalindrome = false;
-//        Message message = retrieveMessage(messageId);
-//        String messageText = message.getText();
-//        if (messageText.length() < 2) {
-//            isPalindrome = true;
-//        }
-//        char[] messageArray = messageText.toCharArray();
-//        int messageArrLength = messageArray.length;
-//        for (int i=0, j=messageArrLength-1; i<j; i++, j--) {
-//            if (messageArray[i] != messageArray[j]) {
-//                isPalindrome = false;
-//                break;
-//            }
-//
-//        }
-//        return isPalindrome;
-//    }
-
-    public boolean isPalindrome(String messageText) {
-        boolean isPalindrome = false;
+    public boolean isPalindrome(String messageId) {
+        Message message = retrieveMessage(messageId);
+        String messageText = message.getText();
         if (messageText.length() < 2) {
-            isPalindrome = true;
+            return true;
         }
         char[] messageArray = messageText.toCharArray();
         int messageArrLength = messageArray.length;
         for (int i=0, j=messageArrLength-1; i<j; i++, j--) {
             if (messageArray[i] != messageArray[j]) {
-                isPalindrome = false;
-                break;
+                return false;
             }
 
         }
-        return isPalindrome;
+        return true;
     }
 }

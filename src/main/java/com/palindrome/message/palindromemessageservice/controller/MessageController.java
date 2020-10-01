@@ -26,12 +26,12 @@ public class MessageController {
     }
 
     @GetMapping("/messages/{messageId}")
-    public Message retrieveMessage(@PathVariable String messageId) throws Exception {
+    public Message retrieveMessage(@PathVariable String messageId) {
         return messageService.retrieveMessage(messageId);
     }
 
-    @PostMapping("/messages/update/{messageId}")
-    public void updateMessage(@RequestBody String messageId, String text) throws Exception {
+    @PostMapping("/messages/update")
+    public void updateMessage(@RequestBody String messageId, String text) {
         messageService.updateMessage(messageId, text);
     }
 
@@ -43,13 +43,13 @@ public class MessageController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/messages")
+    @GetMapping("/messages/all")
     public List<Message> retrieveAllMessages() {
         return messageService.retrieveAllMessages();
     }
 
     @GetMapping("/messages/check-palindrome/{messageId}")
-    public boolean isPalindrome(@PathVariable String messageId) throws Exception {
+    public boolean isPalindrome(@PathVariable String messageId) {
         return messageService.isPalindrome(messageId);
     }
 }
