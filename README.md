@@ -56,12 +56,16 @@ This application was build in Java with the use of the Spring Boot framework fol
 #### build
 Build the application by running `mvn clean install`. 
 
-#### run
+#### running locally
 A local deployment of the application can be found at 
 > http://localhost:8080/.
 
 A swagger interface is also available to execute the HTTP endpoints. Use the following deployment 
 > http://localhost:8080/swagger-ui.html.
+
+#### Deploying and running with docker
+$ docker build -t springio/gs-spring-boot-docker .
+$ docker run -p 8080:8080 springio/gs-spring-boot-docker
 
 
 ### Future improvements
