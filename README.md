@@ -14,9 +14,11 @@ This application was build in Java with the use of the Spring Boot framework fol
 Build the application by running `mvn clean install`. 
 
 #### run
-A local deployment of the application can be found at >http://localhost:8080/.
+A local deployment of the application can be found at 
+> http://localhost:8080/.
 
-A swagger interface is also available to execute the HTTP endpoints. Use the following deployment >http://localhost:8080/swagger-ui.html.
+A swagger interface is also available to execute the HTTP endpoints. Use the following deployment 
+> http://localhost:8080/swagger-ui.html.
 
 
 ### Future improvements
