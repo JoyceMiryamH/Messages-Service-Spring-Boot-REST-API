@@ -5,6 +5,9 @@ This application manages messages and provides details about them. Specifically,
 * Create, retrieve, update, and delete a message.
 * Retrieve a list of all messages.
 
+### Continuous Integration
+master [![Build Status](https://travis-ci.com/JoyceMiryamH/Messages-Service-Spring-Boot-REST-API.svg?branch=master)](https://travis-ci.com/JoyceMiryamH/Messages-Service-Spring-Boot-REST-API)
+
 
 ### Architecture
 This application was build in Java with the use of the Spring Boot framework following a RESTful design pattern. It can be broken down into three distinct layers; the model, the controller and the service. The application is connected to a MySQL database, using Spring Data JPA to access the database.
