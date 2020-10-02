@@ -18,27 +18,27 @@ public class MessageController {
     }
 
     @GetMapping("/messages/{messageId}")
-    public Message retrieveMessage(@PathVariable Long messageId) {
+    public @ResponseBody Message retrieveMessage(@PathVariable Long messageId) {
         return messageService.retrieveMessage(messageId);
     }
 
     @PostMapping("/messages/update/{messageId}")
-    public void updateMessage(@PathVariable Long messageId, @RequestBody String text) {
-        messageService.updateMessage(messageId, text);
+    public @ResponseBody Message updateMessage(@PathVariable Long messageId, @RequestBody String text) {
+        return messageService.updateMessage(messageId, text);
     }
 
     @DeleteMapping("/messages/delete/{messageId}")
-    public void deleteMessage(@PathVariable Long messageId) {
-        messageService.deleteMessage(messageId);
+    public @ResponseBody String deleteMessage(@PathVariable Long messageId) {
+        return messageService.deleteMessage(messageId);
     }
 
     @GetMapping("/messages/all")
-    public Iterable<Message> retrieveAllMessages() {
+    public @ResponseBody Iterable<Message> retrieveAllMessages() {
         return messageService.retrieveAllMessages();
     }
 
     @GetMapping("/messages/check-palindrome/{messageId}")
-    public boolean isPalindrome(@PathVariable Long messageId) {
+    public @ResponseBody boolean isPalindrome(@PathVariable Long messageId) {
         return messageService.retrieveMessage(messageId).isPalindrome();
     }
 }

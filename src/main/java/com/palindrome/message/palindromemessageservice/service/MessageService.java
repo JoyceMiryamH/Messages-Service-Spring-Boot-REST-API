@@ -35,7 +35,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public void updateMessage(Long messageId, String text) {
+    public Message updateMessage(Long messageId, String text) {
         Message message = messageRepository.findById(messageId).orElse(null);
         if (message == null) {
             throw new MessageNotFoundException(messageId);
@@ -44,11 +44,13 @@ public class MessageService implements IMessageService {
         message.setPalindrome(isPalindrome(message));
         message.setLastModified(new Date());
         messageRepository.save(message);
+        return message;
     }
 
     @Override
-    public void deleteMessage(Long messageId) {
+    public String deleteMessage(Long messageId) {
         messageRepository.deleteById(messageId);
+        return String.format("Message %s was successfully deleted.", messageId);
     }
 
     @Override
