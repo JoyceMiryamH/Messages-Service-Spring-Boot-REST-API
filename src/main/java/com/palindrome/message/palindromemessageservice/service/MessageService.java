@@ -2,38 +2,29 @@ package com.palindrome.message.palindromemessageservice.service;
 
 import com.palindrome.message.palindromemessageservice.error.MessageNotFoundException;
 import com.palindrome.message.palindromemessageservice.model.Message;
+import com.palindrome.message.palindromemessageservice.repository.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class MessageService implements IMessageService {
 
-    private SecureRandom random = new SecureRandom();
-    private static List<Message> messages = new ArrayList<>();
+    @Autowired
+    private MessageRepository messageRepository;
 
     @Override
-    public void createMessage(String text) {
-        String generatedMessageId = new BigInteger(130, random).toString(32);
-        Message message = new Message(generatedMessageId, text);
-        messages.add(message);
+    public int createMessage(String text) {
+        Message message = new Message(text);
+        message.setPalindrome(isPalindrome(text));
+        messageRepository.save(message);
+        return message.getId();
     }
 
     @Override
-    public void createMessage(String messageId, String text) {
-        Message message = new Message(messageId, text);
-        messages.add(message);
-    }
-
-    @Override
-    public Message retrieveMessage(String messageId) {
-        Optional<Message> message = messages.stream().filter(msg -> msg.getId().equals(messageId)).findFirst();
+    public Message retrieveMessage(int messageId) {
+        Optional<Message> message = messageRepository.findById(messageId);
         if (!message.isPresent()) {
             throw new MessageNotFoundException();
         }
@@ -41,28 +32,26 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public void updateMessage(String messageId, String text) {
+    public void updateMessage(int messageId, String text) {
         Message message = retrieveMessage(messageId);
         if (message != null) {
             message.setText(text);
-        } else {
-            createMessage(messageId, text);
+            message.setPalindrome(isPalindrome(text));
+            messageRepository.save(message);
         }
     }
 
     @Override
-    public boolean deleteMessage(String messageId) {
-        return messages.removeIf(message -> message.getId().equals(messageId));
+    public void deleteMessage(int messageId) {
+        messageRepository.deleteById(Integer.valueOf(messageId));
     }
 
     @Override
-    public List<Message> retrieveAllMessages() {
-        return messages.stream().sorted(Comparator.comparing(Message::getId)).collect(Collectors.toList());
+    public Iterable<Message> retrieveAllMessages() {
+        return messageRepository.findAll();
     }
 
-    public boolean isPalindrome(String messageId) {
-        Message message = retrieveMessage(messageId);
-        String messageText = message.getText();
+    public boolean isPalindrome(String messageText) {
         if (messageText.length() < 2) {
             return true;
         }
@@ -72,7 +61,6 @@ public class MessageService implements IMessageService {
             if (messageArray[i] != messageArray[j]) {
                 return false;
             }
-
         }
         return true;
     }

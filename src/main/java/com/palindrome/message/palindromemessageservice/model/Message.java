@@ -4,39 +4,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.Objects;
 
 @Entity
 public class Message {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private String id;
+    private int id;
     private String text;
+    private boolean isPalindrome;
 
     public Message() {
     }
 
     public Message(String text) {
         super();
-        SecureRandom random = new SecureRandom();
-        String generatedId = new BigInteger(130, random).toString(32);
-        this.id = generatedId;
         this.text = text;
     }
 
-    public Message(String id, String text) {
-        super();
-        this.id = id;
-        this.text = text;
-    }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -47,6 +38,14 @@ public class Message {
 
     public String getText() {
         return text;
+    }
+
+    public boolean isPalindrome() {
+        return isPalindrome;
+    }
+
+    public void setPalindrome(boolean palindrome) {
+        isPalindrome = palindrome;
     }
 
     @Override
@@ -60,11 +59,12 @@ public class Message {
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
         return Objects.equals(id, message.id) &&
-                Objects.equals(text, message.text);
+                Objects.equals(text, message.text) &&
+                Objects.equals(isPalindrome(), message.isPalindrome());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text);
+        return Objects.hash(id, text, isPalindrome());
     }
 }

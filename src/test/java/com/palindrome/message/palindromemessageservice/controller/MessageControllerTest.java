@@ -36,30 +36,44 @@ public class MessageControllerTest {
     private MessageService messageService;
 
     @Test
-    public void testRetrieveMessage() throws Exception {
-        Message mockMessage = new Message("message1", "this is a message");
+    public void testCreateMessage() throws Exception {
+        Message mockMessage = new Message("this is a message");
         Mockito.when(
-                messageService.retrieveMessage(Mockito.anyString())).thenReturn(mockMessage);
+                messageService.createMessage(Mockito.anyString())).thenReturn(mockMessage.getId());
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
+                "/messages/create").accept(
+                MediaType.APPLICATION_JSON).content("this is a message").contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+    }
+
+    @Test
+    public void testRetrieveMessage_Success() throws Exception {
+        Message mockMessage = new Message("this is a message");
+        Mockito.when(
+                messageService.retrieveMessage(Mockito.anyInt())).thenReturn(mockMessage);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/messages/message1").accept(
+                "/messages/"+mockMessage.getId()).accept(
                 MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-        String expected = "{id:message1}";
+        String expected = "{id:"+mockMessage.getId()+"}";
         JSONAssert.assertEquals(expected, result.getResponse()
                 .getContentAsString(), false);
     }
 
     @Test(expected = NestedServletException.class)
-    public void TestRetrieveMessageFailed() throws Exception {
-        Message mockMessage = new Message("message2", "this is a message");
+    public void testRetrieveMessage_Failed() throws Exception {
+        Message mockMessage = new Message("this is a message");
         Mockito.when(
-                messageService.retrieveMessage(Mockito.anyString())).thenThrow(new MessageNotFoundException());
+                messageService.retrieveMessage(Mockito.anyInt())).thenThrow(new MessageNotFoundException());
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/messages/message1").accept(
+                "/messages/"+mockMessage.getId()).accept(
                 MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
 
@@ -68,12 +82,20 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void testDeleteMessage() throws Exception {
-        Mockito.when(
-                messageService.deleteMessage(Mockito.anyString())).thenReturn(true);
+    public void testUpdateMessage() throws Exception {
+        Message mockMessage = new Message("text");
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
+                "/messages/update/"+mockMessage.getId()).accept(
+                MediaType.APPLICATION_JSON).content("updated text").contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+    }
 
+    @Test
+    public void testDeleteMessage() throws Exception {
+        Message mockMessage = new Message("this is a message");
         RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(
-                "/messages/delete/message1").accept(
+                "/messages/delete/"+mockMessage.getId()).accept(
                 MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -82,8 +104,8 @@ public class MessageControllerTest {
 
     @Test
     public void testRetrieveAllMessages() throws Exception {
-        Message mockMessage1 = new Message("message1", "messageText");
-        Message mockMessage2 = new Message("message2", "messageText");
+        Message mockMessage1 = new Message("messageText1");
+        Message mockMessage2 = new Message("messageText2");
         List<Message> mockMessages = new ArrayList<>();
         mockMessages.add(mockMessage1);
         mockMessages.add(mockMessage2);
@@ -96,7 +118,7 @@ public class MessageControllerTest {
                 MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        String expected = "[{\"id\":\"message1\",\"text\":\"messageText\"},{\"id\":\"message2\",\"text\":\"messageText\"}]";
+        String expected = "[{\"id\":0,\"text\":\"messageText1\",\"palindrome\":false},{\"id\":0,\"text\":\"messageText2\",\"palindrome\":false}]";
         JSONAssert.assertEquals(expected, result.getResponse()
                 .getContentAsString(), false);
     }
