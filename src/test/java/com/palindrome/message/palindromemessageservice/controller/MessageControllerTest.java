@@ -50,10 +50,10 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void testRetrieveMessage_Success() throws Exception {
+    public void testRetrieveMessage_success() throws Exception {
         Message mockMessage = new Message("this is a message");
         Mockito.when(
-                messageService.retrieveMessage(Mockito.anyInt())).thenReturn(mockMessage);
+                messageService.retrieveMessage(Mockito.anyLong())).thenReturn(mockMessage);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
                 "/messages/"+mockMessage.getId()).accept(
@@ -67,10 +67,10 @@ public class MessageControllerTest {
     }
 
     @Test(expected = NestedServletException.class)
-    public void testRetrieveMessage_Failed() throws Exception {
+    public void testRetrieveMessage_failure() throws Exception {
         Message mockMessage = new Message("this is a message");
         Mockito.when(
-                messageService.retrieveMessage(Mockito.anyInt())).thenThrow(new MessageNotFoundException());
+                messageService.retrieveMessage(Mockito.anyLong())).thenThrow(new MessageNotFoundException());
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
                 "/messages/"+mockMessage.getId()).accept(

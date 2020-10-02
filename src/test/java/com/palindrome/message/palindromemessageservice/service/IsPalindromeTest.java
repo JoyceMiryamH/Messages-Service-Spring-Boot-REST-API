@@ -44,10 +44,15 @@ public class IsPalindromeTest {
         Assert.assertTrue(messageService.isPalindrome("abcba"));
     }
 
-//    @Test
-//    public void testIsPalindrome_caseSensitive() {
-//        Assert.assertFalse(messageService.isPalindrome("abcbA"));
-//    }
+    @Test
+    public void testIsPalindrome_caseSensitive() {
+        Assert.assertTrue(messageService.isPalindrome("abcbA"));
+    }
+
+    @Test
+    public void testIsPalindrome_longString() {
+        Assert.assertTrue(messageService.isPalindrome("abcdefghijklmnopqrstuvwxyzyxwvutsrqponmlkjihgfedcba"));
+    }
 
     @Test
     public void testIsPalindrome_falseCase() {

@@ -3,10 +3,11 @@ package com.palindrome.message.palindromemessageservice.service;
 import com.palindrome.message.palindromemessageservice.model.Message;
 
 public interface IMessageService {
-    int createMessage(String text);
-    Message retrieveMessage(int messageId);
-    void updateMessage(int messageId, String text);
-    void deleteMessage(int messageId);
+    Long createMessage(String text);
+    Message retrieveMessage(Long messageId);
+    void updateMessage(Long messageId, String text);
+    void deleteMessage(Long messageId);
     Iterable<Message> retrieveAllMessages();
+    boolean isPalindrome(Message message);
     boolean isPalindrome(String messageText);
 }

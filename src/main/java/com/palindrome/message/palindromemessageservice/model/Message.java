@@ -2,17 +2,20 @@ package com.palindrome.message.palindromemessageservice.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 public class Message {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    @GeneratedValue()
+    private Long id;
+    private Date created;
+    private Date lastModified;
     private String text;
     private boolean isPalindrome;
+
 
     public Message() {
     }
@@ -22,15 +25,26 @@ public class Message {
         this.text = text;
     }
 
-
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
+    public Date getCreated() {
+        return created;
+    }
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+    public Date getLastModified() {
+        return lastModified;
+    }
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
 
     public void setText(String text) {
         this.text = text;
@@ -49,22 +63,30 @@ public class Message {
     }
 
     @Override
-    public String toString() {
-        return String.format("Student [id=%s, text=%s]", id, text);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Message message = (Message) o;
-        return Objects.equals(id, message.id) &&
-                Objects.equals(text, message.text) &&
-                Objects.equals(isPalindrome(), message.isPalindrome());
+        Message that = (Message) o;
+        return isPalindrome == that.isPalindrome &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(created, that.created) &&
+                Objects.equals(lastModified, that.lastModified) &&
+                Objects.equals(text, that.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, isPalindrome());
+        return Objects.hash(id, created, lastModified, text, isPalindrome);
+    }
+
+    @Override
+    public String toString() {
+        return "PalindromeMessage{" +
+                "id=" + id +
+                ", created=" + created +
+                ", lastModified=" + lastModified +
+                ", text='" + text + '\'' +
+                ", isPalindrome=" + isPalindrome +
+                '}';
     }
 }

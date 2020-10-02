@@ -6,6 +6,7 @@ import com.palindrome.message.palindromemessageservice.repository.MessageReposit
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Component
@@ -15,35 +16,39 @@ public class MessageService implements IMessageService {
     private MessageRepository messageRepository;
 
     @Override
-    public int createMessage(String text) {
+    public Long createMessage(String text) {
         Message message = new Message(text);
-        message.setPalindrome(isPalindrome(text));
+        message.setPalindrome(isPalindrome(message));
+        message.setCreated(new Date());
+        message.setLastModified(message.getCreated());
         messageRepository.save(message);
         return message.getId();
     }
 
     @Override
-    public Message retrieveMessage(int messageId) {
+    public Message retrieveMessage(Long messageId) {
         Optional<Message> message = messageRepository.findById(messageId);
         if (!message.isPresent()) {
-            throw new MessageNotFoundException();
+            throw new MessageNotFoundException(messageId);
         }
         return message.get();
     }
 
     @Override
-    public void updateMessage(int messageId, String text) {
-        Message message = retrieveMessage(messageId);
-        if (message != null) {
-            message.setText(text);
-            message.setPalindrome(isPalindrome(text));
-            messageRepository.save(message);
+    public void updateMessage(Long messageId, String text) {
+        Message message = messageRepository.findById(messageId).orElse(null);
+        if (message == null) {
+            throw new MessageNotFoundException(messageId);
         }
+        message.setText(text);
+        message.setPalindrome(isPalindrome(message));
+        message.setLastModified(new Date());
+        messageRepository.save(message);
     }
 
     @Override
-    public void deleteMessage(int messageId) {
-        messageRepository.deleteById(Integer.valueOf(messageId));
+    public void deleteMessage(Long messageId) {
+        messageRepository.deleteById(messageId);
     }
 
     @Override
@@ -51,8 +56,21 @@ public class MessageService implements IMessageService {
         return messageRepository.findAll();
     }
 
+    @Override
+    public boolean isPalindrome(Message message) {
+        if (message == null) {
+            throw new MessageNotFoundException(message.getId());
+        }
+        boolean isPalindrome = isPalindrome(message.getText());
+        message.setPalindrome(isPalindrome);
+        messageRepository.save(message);
+        return isPalindrome;
+    }
+
+    @Override
     public boolean isPalindrome(String messageText) {
-        if (messageText.length() < 2) {
+        messageText = messageText.toLowerCase(); // this is important to make the algo not case sensitive - abcbA is a palindrome
+        if (messageText.length() < 2) { // base cases - empty or 1 character string
             return true;
         }
         char[] messageArray = messageText.toCharArray();
@@ -62,6 +80,7 @@ public class MessageService implements IMessageService {
                 return false;
             }
         }
+        System.out.println("this is a palindrome");
         return true;
     }
 }
