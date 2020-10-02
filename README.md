@@ -11,36 +11,42 @@ This application was build in Java with the use of the Spring Boot framework fol
 
 ##### REST API
 **CREATE MESSAGE**
+
 *POST /messages/create*
 - Path Variable(s): NA
 - Request Body: The message text. 
 * Return: The id of the message if it's successfully created.
 
 **RETRIEVE MESSAGE**
+
 *GET /messages/{messageId}*
 - Path Variable(s): The id of the message the user would like to retrieve.
 - Request Body: NA
 * Return: The message if found, else, a MessageNotFoundException is thrown.
 
 **UPDATE MESSAGE**
+
 *PUT /messages/update/{messageId}*
 - Path Variable(s): The id of the message the user would like to update.
 - Request Body: The updated message text.
 * Return: The updated version of the message (with the new text, new last modified time and date, etc.)
 
 **DELETE MESSAGE**
+
 *DELETE /messages/delete/{messageId}*
 - Path Variable(s): The id of the message the user would like to delete.
 - Request Body: NA
 * Return Value(s): A message indicating whether the message was successfully deleted or not.
 
 **RETRIEVE ALL MESSAGES**
+
 *GET /messages/all*
 - Path Variable(s): NA
 - Request Body: NA
 * Return Value(s): A list of all the messages stored in the database. 
 
 **CHECK MESSAGE IS A PALINDROME**
+
 *GET /messages/check-palindrome/{messageId}*
 - Path Variable(s): The id of the message the user would like to check.
 - Request Body: NA
