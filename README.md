@@ -65,6 +65,7 @@ A swagger interface is also available to execute the HTTP endpoints. Use the fol
 
 #### Deploying and running with docker
 $ docker build -t springio/gs-spring-boot-docker .
+
 $ docker run -p 8080:8080 springio/gs-spring-boot-docker
 
 
