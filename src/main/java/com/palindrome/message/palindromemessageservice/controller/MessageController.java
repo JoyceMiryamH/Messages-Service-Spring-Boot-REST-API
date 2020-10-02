@@ -22,7 +22,7 @@ public class MessageController {
         return messageService.retrieveMessage(messageId);
     }
 
-    @PostMapping("/messages/update/{messageId}")
+    @PutMapping("/messages/update/{messageId}")
     public @ResponseBody Message updateMessage(@PathVariable Long messageId, @RequestBody String text) {
         return messageService.updateMessage(messageId, text);
     }
