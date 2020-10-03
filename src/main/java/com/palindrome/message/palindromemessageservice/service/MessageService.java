@@ -16,7 +16,7 @@ public class MessageService implements IMessageService {
     private MessageRepository messageRepository;
 
     @Override
-    public Long createMessage(String text) {
+    public long createMessage(String text) {
         Message message = new Message(text);
         message.setPalindrome(isPalindrome(message));
         message.setCreated(new Date());
@@ -26,7 +26,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public Message retrieveMessage(Long messageId) {
+    public Message retrieveMessage(long messageId) {
         Optional<Message> message = messageRepository.findById(messageId);
         if (!message.isPresent()) {
             throw new MessageNotFoundException(messageId);
@@ -35,7 +35,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public Message updateMessage(Long messageId, String text) {
+    public Message updateMessage(long messageId, String text) {
         Message message = messageRepository.findById(messageId).orElse(null);
         if (message == null) {
             throw new MessageNotFoundException(messageId);
@@ -48,7 +48,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public String deleteMessage(Long messageId) {
+    public String deleteMessage(long messageId) {
         messageRepository.deleteById(messageId);
         return String.format("Message %s was successfully deleted.", messageId);
     }
@@ -69,7 +69,6 @@ public class MessageService implements IMessageService {
         return isPalindrome;
     }
 
-    @Override
     public boolean isPalindrome(String messageText) {
         messageText = messageText.toLowerCase(); // this is important to make the algo not case sensitive - abcbA is a palindrome
         if (messageText.length() < 2) { // base cases - empty or 1 character string

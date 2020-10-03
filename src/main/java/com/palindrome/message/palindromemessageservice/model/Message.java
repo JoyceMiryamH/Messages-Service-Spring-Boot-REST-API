@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Message {
     @Id
     @GeneratedValue()
-    private Long id;
+    private long id;
     private Date created;
     private Date lastModified;
     private String text;
@@ -25,11 +25,11 @@ public class Message {
         this.text = text;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

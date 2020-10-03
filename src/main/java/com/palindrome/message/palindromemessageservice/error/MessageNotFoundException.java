@@ -9,7 +9,7 @@ public class MessageNotFoundException extends RuntimeException {
         super();
     }
 
-    public MessageNotFoundException(Long id){
+    public MessageNotFoundException(long id){
         super(String.format("No message was found for ID: %s", id));
     }
 }

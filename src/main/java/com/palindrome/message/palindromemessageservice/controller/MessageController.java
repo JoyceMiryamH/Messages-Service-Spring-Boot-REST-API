@@ -13,22 +13,22 @@ public class MessageController {
     private MessageService messageService;
 
     @PostMapping("/messages/create")
-    public @ResponseBody Long createMessage(@RequestBody String text) {
+    public @ResponseBody long createMessage(@RequestBody String text) {
         return messageService.createMessage(text);
     }
 
     @GetMapping("/messages/{messageId}")
-    public @ResponseBody Message retrieveMessage(@PathVariable Long messageId) {
+    public @ResponseBody Message retrieveMessage(@PathVariable long messageId) {
         return messageService.retrieveMessage(messageId);
     }
 
     @PutMapping("/messages/update/{messageId}")
-    public @ResponseBody Message updateMessage(@PathVariable Long messageId, @RequestBody String text) {
+    public @ResponseBody Message updateMessage(@PathVariable long messageId, @RequestBody String text) {
         return messageService.updateMessage(messageId, text);
     }
 
     @DeleteMapping("/messages/delete/{messageId}")
-    public @ResponseBody String deleteMessage(@PathVariable Long messageId) {
+    public @ResponseBody String deleteMessage(@PathVariable long messageId) {
         return messageService.deleteMessage(messageId);
     }
 
@@ -38,7 +38,7 @@ public class MessageController {
     }
 
     @GetMapping("/messages/check-palindrome/{messageId}")
-    public @ResponseBody boolean isPalindrome(@PathVariable Long messageId) {
+    public @ResponseBody boolean isPalindrome(@PathVariable long messageId) {
         return messageService.retrieveMessage(messageId).isPalindrome();
     }
 }
