@@ -8,9 +8,23 @@ This application manages messages and provides details about them. Specifically,
 ### Continuous Integration
 master [![Build Status](https://travis-ci.com/JoyceMiryamH/Messages-Service-Spring-Boot-REST-API.svg?branch=master)](https://travis-ci.com/JoyceMiryamH/Messages-Service-Spring-Boot-REST-API)
 
-
 ### Architecture
 This application was build in Java with the use of the Spring Boot framework following a RESTful design pattern. It can be broken down into three distinct layers; the model, the controller and the service. The application is connected to a MySQL database, using Spring Data JPA to access the database.
+
+The model(s) of the application are organised under the model package.
+
+The MessageRepository class is an extension of the CrudRepository interface helping the service layer to persist and retrieve the data from MySQL. The CrudRepository implements basic CRUD operations, including count, delete, deleteById, save, saveAll, findById, and findAll.
+
+The service layer is defined under the service package.
+
+The controller layer interacts with the service layer to get a job done whenever it receives a request from the api layer. It binds everything together right from the moment a request is intercepted till the response is prepared and sent back. The controller layer is present in the controller package,
+
+#### Libraries/Tools Used
+The following libraries were used during the development of this application:
+* Spring Boot : Server side framework
+* Docker : Containerising framework
+* MySQL : SQL database
+* Swagger : API documentation
 
 ##### Class Diagram
 ![Class Diagram](classDiagram.png)
@@ -63,17 +77,24 @@ This application was build in Java with the use of the Spring Boot framework fol
 Build the application by running `mvn clean install`. 
 
 #### running locally
-A local deployment of the application can be found at 
-> http://localhost:8080/.
+To run the app from a terminal window you can you the java -jar command.
+> java -jar target/palindrome-message-service-0.0.1-SNAPSHOT.jar
 
-A swagger interface is also available to execute the HTTP endpoints. Use the following deployment 
-> http://localhost:8080/swagger-ui.html.
+You can also use Maven plugin to run the app. Use the below example to run your Spring Boot app with Maven plugin :
+> mvn spring-boot:run
+
+A local deployment of the application can be found at http://localhost:8080/.
 
 #### Deploying and running with docker
 Two seperate docker compose files have been defined for this project. The mySQL database configurations are defined in the docker-compose.yaml and the service's docker deployment is defined in the docker-compose-palindrome.yaml file. Two seperate files were used so that the database and the application may run independently from each other in isolated environments. Use the first command in order to get the database up and running and then run the second command to deploy the palindrome message management application. 
 
 $ docker-compose up -f docker-compose.yaml
+
 $ docker-compose up -f docker-compose-palindrome.yaml
+
+#### API Documentation
+
+A swagger interface is also available to execute the HTTP endpoints. Use the following deployment http://localhost:8080/swagger-ui.html.
 
 
 ### Future improvements
