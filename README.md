@@ -70,9 +70,10 @@ A swagger interface is also available to execute the HTTP endpoints. Use the fol
 > http://localhost:8080/swagger-ui.html.
 
 #### Deploying and running with docker
-$ docker build -t springio/gs-spring-boot-docker .
+Two seperate docker compose files have been defined for this project. The mySQL database configurations are defined in the docker-compose.yaml and the service's docker deployment is defined in the docker-compose-palindrome.yaml file. Two seperate files were used so that the database and the application may run independently from each other in isolated environments. Use the first command in order to get the database up and running and then run the second command to deploy the palindrome message management application. 
 
-$ docker run -p 8080:8080 springio/gs-spring-boot-docker
+$ docker-compose up -f docker-compose.yaml
+$ docker-compose up -f docker-compose-palindrome.yaml
 
 
 ### Future improvements
