@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+#  palindrome:
+#    image: palindrome:local
+#    networks:
+#      - back-tier
+#    deploy:
+#      restart_policy:
+#        condition: on-failure
+#        delay: 5s
+#        max_attempts: 5
+#        window: 120s
   mysql:
     image: library/mysql:5.6
     container_name: mysql
@@ -16,3 +26,9 @@ services:
       MYSQL_ROOT_HOST: '%'
     ports:
       - '3306:3306'
+    networks:
+      - back-tier
+networks:
+  back-tier:
+    external: true
+    name: back-tier

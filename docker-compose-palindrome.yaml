@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  palindrome:
+    image: palindrome:local
+    networks:
+      - back-tier
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    ports:
+      - '8080:8080'
+networks:
+  back-tier:
+    external: true
+    name: back-tier
