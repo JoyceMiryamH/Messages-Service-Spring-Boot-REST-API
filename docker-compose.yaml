@@ -1,16 +1,6 @@
 version: '3'
 
 services:
-#  palindrome:
-#    image: palindrome:local
-#    networks:
-#      - back-tier
-#    deploy:
-#      restart_policy:
-#        condition: on-failure
-#        delay: 5s
-#        max_attempts: 5
-#        window: 120s
   mysql:
     image: library/mysql:5.6
     container_name: mysql
